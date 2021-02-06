@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="ВИЗНАЧЕННЯ ТЕХНІЧНОЇ ШВИДКОСТІ ТА ШВИДКОСТІ СПОЛУЧЕННЯ АВТОБУСА НА МАРШРУТІ">
+  <meta name="author" content="Iryna Fedorenko">
+  <title>ПРАКТИЧНА РОБОТА №5</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+  <style>
+    /* stylelint-disable selector-list-comma-newline-after */
+
+    .blog-header {
+      line-height: 1;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .blog-header-logo {
+      font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+      font-size: 1.5rem;
+    }
+
+    .blog-header-logo:hover {
+      text-decoration: none;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+    }
+
+    .display-4 {
+      font-size: 2.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .display-4 {
+        font-size: 3rem;
+      }
+    }
+
+    .nav-scroller {
+      position: relative;
+      z-index: 2;
+      height: 2.75rem;
+      overflow-y: hidden;
+    }
+
+    .nav-scroller .nav {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-scroller .nav-link {
+      padding-top: .75rem;
+      padding-bottom: .75rem;
+      font-size: .875rem;
+    }
+
+    .card-img-right {
+      height: 100%;
+      border-radius: 0 3px 3px 0;
+    }
+
+    .flex-auto {
+      -ms-flex: 0 0 auto;
+      flex: 0 0 auto;
+    }
+
+    .h-250 {
+      height: 250px;
+    }
+
+    @media (min-width: 768px) {
+      .h-md-250 {
+        height: 250px;
+      }
+    }
+
+    /* Pagination */
+    .blog-pagination {
+      margin-bottom: 4rem;
+    }
+
+    .blog-pagination>.btn {
+      border-radius: 2rem;
+    }
+
+    /*
+ * Blog posts
+ */
+    .blog-post {
+      margin-bottom: 4rem;
+    }
+
+    .blog-post-title {
+      margin-bottom: .25rem;
+      font-size: 2.5rem;
+    }
+
+    .blog-post-meta {
+      margin-bottom: 1.25rem;
+      color: #999;
+    }
+
+    /*
+ * Footer
+ */
+    .blog-footer {
+      padding: 2.5rem 0;
+      color: #999;
+      text-align: center;
+      background-color: #f9f9f9;
+      border-top: .05rem solid #e5e5e5;
+    }
+
+    .blog-footer p:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <h5 class="my-0 mr-md-auto font-weight-normal">Національний Транспортний Університет</h5>
+    <h5 class="my-0 mr-md-auto font-weight-normal">Національний Транспортний Університет</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 text-dark" href="#">Features</a>
+      <a class="p-2 text-dark" href="#">Enterprise</a>
+      <a class="p-2 text-dark" href="#">Support</a>
+      <a class="p-2 text-dark" href="#">Pricing</a>
+    </nav>
+    <a class="btn btn-outline-primary" href="#">Sign up</a>
+  </div> -->
+  <div id="app" class="container">
+
+    <header class="blog-header py-3">
+      <div class="row flex-nowrap justify-content-between align-items-center">
+        <div class="col-3 pt-1">
+          <a class="text-dark font-weight-bold" href="http://www.ntu.edu.ua/">НТУ</a>
+        </div>
+        <div class="col-6 text-center">
+          <a class="blog-header-logo text-dark"
+            href="http://new.ntu.edu.ua/pidrozdili/kafedri/kafedra-transportnix-texnologij/">Кафедра транспортних
+            технологій</a>
+        </div>
+        <div class="col-3">
+          <img src="http://www.ntu.edu.ua/wp-content/themes/ntu/images/logo.png" 
+          style="width: 2rem; height: 2rem;"
+          class="logo-img float-right" 
+          title="logo"
+            alt="logo">
+        </div>
+      </div>
+    </header>
+
+    <div class="nav-scroller py-1 mb-2">
+      <nav class="nav d-flex justify-content-between">
+        <a class="p-2 text-muted" href="#">ЗАТТ</a>
+        <a class="p-2 text-muted" href="#">ОТТ</a>
+        <a class="p-2 text-muted" href="#">СТТ</a>
+        <a class="p-2 text-muted" href="#">СКУТП</a>
+      </nav>
+    </div>
+
+    <h1 class="mt-4">ПРАКТИЧНА РОБОТА №5</h1>
+    <p class="lead">ВИЗНАЧЕННЯ ТЕХНІЧНОЇ ШВИДКОСТІ ТА ШВИДКОСТІ СПОЛУЧЕННЯ АВТОБУСА НА МАРШРУТІ</p>
+
+    <h2 class="mt-4">Мета</h2>
+    <p>Отримати практичні навички визначення технічної швидкості та швидкості сполучення автобуса на міському
+      маршруті.</p>
+
+    <hr class="my-4" />
+
+    <h2 class="mt-4">Вихідні дані</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Показник</th>
+          <th scope="col">Умовне позначення</th>
+          <th scope="col">Фактичне значення</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Експлуатаційна швидкість автобуса, км/год</th>
+          <td> \(V_e\)</td>
+          <td><input class="form-control" type="text" v-model.number='експлуатаційнаШвидкістьАвтобуса'
+              placeholder="км/год">
+          </td>
+        </tr>
+        <tr>
+          <td>Довжина маршруту, км</th>
+          <td>\(l_M\)</td>
+          <td><input class="form-control" type="text" v-model.number='довжинаМаршруту' placeholder="км">
+          </td>
+        </tr>
+        <tr>
+          <td>Кількість проміжних зупинок</th>
+          <td>\(n_{nз}\)</td>
+          <td><input class="form-control" type="text" v-model.number='кількістьПроміжнихЗупинок'
+              placeholder="кількість">
+          </td>
+        </tr>
+        <tr>
+          <td>Середній час зупинки на проміжних зупинках, с</th>
+          <td>\(t_{nз}\)</td>
+          <td><input class="form-control" type="text" v-model.number='середнійЧасЗупинки' placeholder="с">
+          </td>
+        </tr>
+        <tr>
+          <td>Сумарний час простою на кінцевих пунктах, хв</th>
+          <td>\(\sum t_{kn}\)</td>
+          <td><input class="form-control" type="text" v-model.number='суммарнийЧасПростою' placeholder="хв">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr class="my-4" />
+
+    <h2 class="mt-4 pb-2 border-bottom">Хід виконання роботи</h2>
+
+    <h3 class="mt-2">Швидкість сполучення на автобусному маршруті</h3>
+    <p>Швидкість сполучення на автобусному маршруті визначається за формулою, км/год:</p>
+    <p>$$ V_c = { l_M \over t_{об} - \left( \sum t_{kn} \over 60 \right) } $$</p>
+    <p>де \( t_{об} \) - тривалість оберту автобуса на маршруті, год:</p>
+    <p>$$ t_{об} = { l_M \over V_e } $$</p>
+
+    <h3 class="mt-2">Технічна швидкість автобуса</h3>
+    <p>Технічна швидкість автобуса визначається за формулою, км/год:</p>
+    <p>$$ V_c = { l_M \over t_{об} - \sum t_{nз} - \left( \sum t_{kn} \over 60 \right) } $$</p>
+    <p>Де \( \sum t_{nз} \) - сумарний час простою автобуса на проміжних зупинках, год:</p>
+    <p>$$ \sum t_{nз} = { t_{nз} \cdot n_{nз} \over 3600 } $$</p>
+
+    <h2 class="mt-4 pb-2 border-bottom">Розраховані значення</h2>
+
+    <h3 class="mt-2">Швидкість сполучення на автобусному маршруті</h3>
+    <p>Швидкість сполучення на автобусному маршруті:
+      <b>{{ швидкістьСполучення.toFixed(2) }} км/год</b>.
+    </p>
+    <p>Тривалість оберту автобуса на маршруті:
+      <b> {{ тривалістьОбертуАвтобуса.toFixed(2) }} год</b>.
+    </p>
+
+    <h3 class="mt-2">Технічна швидкість автобуса</h3>
+    <p>Технічна швидкість автобуса:
+      <b>{{ технічнаШвидкістьАвтобуса.toFixed(2) }} км/год</b>.
+    </p>
+    <p>Сумарний час простою автобуса на проміжних зупинках:
+      <b>{{ суммарнийЧасПростоюНаПроміжнихЗупинках.toFixed(2) }} год</b>.
+    </p>
+
+    <hr class="mt-4" />
+  </div>
+</body>
+
+<script src="https://unpkg.com/vue/dist/vue.min.js" defer></script>
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+
+  window.addEventListener('load', onPageLoad, false);
+
+  function onPageLoad() {
+    const app = new Vue({
+      el: '#app',
+      data: {
+        експлуатаційнаШвидкістьАвтобуса: 20,
+        довжинаМаршруту: 14,
+        кількістьПроміжнихЗупинок: 22,
+        середнійЧасЗупинки: 30,
+        суммарнийЧасПростою: 5,
+      },
+      computed: {
+        швидкістьСполучення: function () {
+          return this.довжинаМаршруту / (this.тривалістьОбертуАвтобуса - (this.суммарнийЧасПростою / 60));
+        },
+        тривалістьОбертуАвтобуса: function () {
+          return this.довжинаМаршруту / this.експлуатаційнаШвидкістьАвтобуса;
+        },
+        технічнаШвидкістьАвтобуса: function () {
+          return this.довжинаМаршруту / (this.тривалістьОбертуАвтобуса - this.суммарнийЧасПростоюНаПроміжнихЗупинках - (this.суммарнийЧасПростою / 60));
+        },
+        суммарнийЧасПростоюНаПроміжнихЗупинках: function () {
+          return (this.середнійЧасЗупинки * this.кількістьПроміжнихЗупинок) / 3600;
+        }
+      }
+    });
+  }
+</script>
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+
+</html>
