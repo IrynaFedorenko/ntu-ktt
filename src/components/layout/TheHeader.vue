@@ -4,7 +4,7 @@
       <v-row>
         <v-col cols="12">
           <div class="header-content">
-            <router-link :to="{ path: 'Home' }">НТУ</router-link>
+            <router-link :to="{ name: 'Home' }">НТУ</router-link>
             <span :key="this.$route.name">{{ description() }}</span>
           </div>
         </v-col>
