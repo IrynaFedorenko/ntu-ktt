@@ -1,64 +1,69 @@
 import { roundTo } from "./math";
 
-export default function calculateFormationCargoUnit(L, B, H, palletWeight, palletCapacity, l, b, h, boxWeight) {
-  const boxCountL_to_l = Math.floor(L / l) || 0;
-  const boxCountL_to_b = Math.floor(L / b) || 0;
-  const boxCountL_to_h = Math.floor(L / h) || 0;
-  const boxCountB_to_l = Math.floor(B / l) || 0;
-  const boxCountB_to_b = Math.floor(B / b) || 0;
-  const boxCountB_to_h = Math.floor(B / h) || 0;
-  const boxCountH_to_l = Math.floor(H / l) || 0;
-  const boxCountH_to_b = Math.floor(H / b) || 0;
-  const boxCountH_to_h = Math.floor(H / h) || 0;
-
-  const boxCountTotal = [];
-  boxCountTotal.push(boxCountL_to_l * boxCountB_to_b * boxCountH_to_h);
-  boxCountTotal.push(boxCountL_to_l * boxCountB_to_h * boxCountH_to_b);
-  boxCountTotal.push(boxCountL_to_b * boxCountB_to_l * boxCountH_to_h);
-  boxCountTotal.push(boxCountL_to_b * boxCountB_to_h * boxCountH_to_l);
-  boxCountTotal.push(boxCountL_to_h * boxCountB_to_b * boxCountH_to_l);
-  boxCountTotal.push(boxCountL_to_h * boxCountB_to_l * boxCountH_to_b);
-
-  const coefficientAreaUsage = [];
-  coefficientAreaUsage.push(roundTo((l * b * boxCountL_to_l * boxCountB_to_b) / (L * B), 2));
-  coefficientAreaUsage.push(roundTo((l * h * boxCountL_to_l * boxCountB_to_h) / (L * B), 2));
-  coefficientAreaUsage.push(roundTo((b * l * boxCountL_to_b * boxCountB_to_l) / (L * B), 2));
-  coefficientAreaUsage.push(roundTo((b * h * boxCountL_to_b * boxCountB_to_h) / (L * B), 2));
-  coefficientAreaUsage.push(roundTo((h * b * boxCountL_to_h * boxCountB_to_b) / (L * B), 2));
-  coefficientAreaUsage.push(roundTo((h * l * boxCountL_to_h * boxCountB_to_l) / (L * B), 2));
-
-  const resultsByVariants = [];
-  for (let i = 0; i < 6; i++) {
-    let resultObj = getBaseResultObject();
-    resultObj.boxCountTotal = boxCountTotal[i];
-    resultObj.palletWeightGross = resultObj.boxCountTotal * boxWeight + palletWeight;
-    resultObj.coefficientLoadCapacity = roundTo(resultObj.palletWeightGross / palletCapacity, 2) || 0;
-    resultObj.coefficientAreaUsage = coefficientAreaUsage[i] || 0;
-
-    resultsByVariants.push(resultObj);
+class CalculateFormationCargoUnit {
+  constructor(L, B, H, palletCapacity, l, b, h, boxWeight) {
+    this.L = L;
+    this.B = B;
+    this.H = H;
+    this.l = l;
+    this.b = b;
+    this.h = h;
+    this.palletCapacity = palletCapacity;
+    this.boxWeight = boxWeight;
   }
 
-  return {
-    resultsByVariants,
-    values: {
-      boxCountL_to_l,
-      boxCountL_to_b,
-      boxCountL_to_h,
-      boxCountB_to_l,
-      boxCountB_to_b,
-      boxCountB_to_h,
-      boxCountH_to_l,
-      boxCountH_to_b,
-      boxCountH_to_h,
-    },
-  };
+  calculate() {
+    const { L_to_l, L_to_b, L_to_h, B_to_l, B_to_b, B_to_h, H_to_l, H_to_b, H_to_h } =
+      this.getBoxCountForEachLocationVariant();
+
+    return [
+      this.calculateOneLocationVariant("L_п/l, B_п/b, H_п/h", L_to_l, B_to_b, H_to_h),
+      this.calculateOneLocationVariant("L_п/l, B_п/h, H_п/b", L_to_l, B_to_h, H_to_b),
+      this.calculateOneLocationVariant("L_п/b, B_п/l, H_п/h", L_to_b, B_to_l, H_to_h),
+      this.calculateOneLocationVariant("L_п/b, B_п/h, H_п/l", L_to_b, B_to_h, H_to_l),
+      this.calculateOneLocationVariant("L_п/h, B_п/b, H_п/l", L_to_h, B_to_b, H_to_l),
+      this.calculateOneLocationVariant("L_п/h, B_п/l, H_п/b", L_to_h, B_to_l, H_to_b),
+    ];
+  }
+
+  getBoxCountForEachLocationVariant() {
+    return {
+      L_to_l: Math.floor(this.L / this.l) || 0,
+      L_to_b: Math.floor(this.L / this.b) || 0,
+      L_to_h: Math.floor(this.L / this.h) || 0,
+      B_to_l: Math.floor(this.B / this.l) || 0,
+      B_to_b: Math.floor(this.B / this.b) || 0,
+      B_to_h: Math.floor(this.B / this.h) || 0,
+      H_to_l: Math.floor(this.H / this.l) || 0,
+      H_to_b: Math.floor(this.H / this.b) || 0,
+      H_to_h: Math.floor(this.H / this.h) || 0,
+    };
+  }
+
+  calculateOneLocationVariant(scheme, boxCountL, boxCountB, boxCountH, recalculateCount = 0) {
+    const boxCountTotal = boxCountL * boxCountB * boxCountH;
+    const palletWeightGross = boxCountTotal * this.boxWeight;
+    const coefficientAreaUsage = roundTo((this.l * this.b * boxCountL * boxCountB) / (this.L * this.B), 2) || 0;
+    const coefficientLoadCapacity = roundTo(palletWeightGross / this.palletCapacity, 2) || 0;
+
+    const returnObj = {
+      scheme,
+      boxCountL,
+      boxCountB,
+      boxCountH,
+      boxCountTotal,
+      coefficientAreaUsage,
+      palletWeightGross,
+      coefficientLoadCapacity,
+      recalculateCount,
+    };
+
+    if (coefficientLoadCapacity > 1 && boxCountH > 1) {
+      return this.calculateOneLocationVariant(scheme, boxCountL, boxCountB, boxCountH - 1, recalculateCount + 1);
+    }
+
+    return returnObj;
+  }
 }
 
-function getBaseResultObject() {
-  return {
-    boxCountTotal: 0,
-    palletWeightGross: 0,
-    coefficientLoadCapacity: 0,
-    coefficientAreaUsage: 0,
-  };
-}
+export default CalculateFormationCargoUnit;

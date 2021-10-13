@@ -7,7 +7,7 @@
     validate-on-blur
     hide-details="auto"
     type="number"
-    :disabled="item.disabled"
+    :disabled="item.disabled === undefined ? false : item.disabled"
     :rules="[rules.required, rules.positive]"
     v-on:change="onChange($event, name)"
     v-model="item.value"

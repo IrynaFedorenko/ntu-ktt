@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "views/Home.vue";
 import FormationCargoUnit from "views/FormationCargoUnit";
+import AnalysisTechnicalAndOperatingCharacteristicsMotorVehicle from "views/AnalysisTechnicalAndOperatingCharacteristicsMotorVehicle";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     path: "/formation-cargo-unit",
     name: "FormationCargoUnit",
     component: FormationCargoUnit,
+  },
+  {
+    path: "/analysis-technical-and-operating-characteristics-motor-vehicle",
+    name: "AnalysisTechnicalAndOperatingCharacteristicsMotorVehicle",
+    component: AnalysisTechnicalAndOperatingCharacteristicsMotorVehicle,
   },
 ];
 

@@ -22,9 +22,11 @@
                 <tr v-for="(item, name) in output.inputs" :key="item.name">
                   <td>{{ item.name }}</td>
                   <td class="font-italic">
-                    <BaseMathjax v-bind:formula="item.formula"></BaseMathjax>
+                    <BaseKatex v-bind:formula="item.formula"></BaseKatex>
                   </td>
-                  <td>{{ item.units }}</td>
+                  <td>
+                    <BaseKatex v-bind:formula="item.units"></BaseKatex>
+                  </td>
                   <td>
                     <BaseInput v-bind:name="name" v-bind:item="item" v-on:inputChange="onInputChange"></BaseInput>
                   </td>
@@ -84,13 +86,13 @@
 
 <script>
 import BaseInput from "components/BaseInput";
-import BaseMathjax from "components/BaseMathjax";
+import BaseKatex from "components/BaseKatex";
 
 export default {
   name: "WorkOutput",
   components: {
     BaseInput,
-    BaseMathjax,
+    BaseKatex,
   },
   props: {
     output: Object,
