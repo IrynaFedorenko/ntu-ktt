@@ -17,6 +17,7 @@
 <style lang="scss">
 .base-input.override-style {
   font-size: 14px;
+  min-width: 100px;
 
   & > div > div:first-child {
     min-height: 38px;
