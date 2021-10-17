@@ -22,7 +22,6 @@
   & > div > div:first-child {
     min-height: 38px;
     margin-top: 6px;
-    margin-bottom: 6px;
 
     label {
       top: 9px;

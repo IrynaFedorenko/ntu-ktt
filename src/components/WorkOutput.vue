@@ -20,12 +20,23 @@
               </thead>
               <tbody>
                 <tr v-for="(item, name) in output.inputs" :key="item.name">
-                  <td>{{ item.name }}</td>
+                  <td>
+                    {{ item.name }}
+                    <ul v-if="item.formulaDescription !== undefined">
+                      <li v-for="(description, index) in item.formulaDescription" :key="index">
+                        <BaseKatexWithText
+                          v-bind:font-size="'14'"
+                          v-bind:texts="description.texts"
+                          v-bind:formulas="description.formulas"
+                        ></BaseKatexWithText>
+                      </li>
+                    </ul>
+                  </td>
                   <td class="font-italic">
                     <BaseKatex v-bind:formula="item.formula"></BaseKatex>
                   </td>
                   <td>
-                    <BaseKatex v-bind:formula="item.units"></BaseKatex>
+                    <BaseKatex v-bind:formula="item.units" v-bind:fontSize="'14'"></BaseKatex>
                   </td>
                   <td>
                     <BaseInput v-bind:name="name" v-bind:item="item" v-on:inputChange="onInputChange"></BaseInput>
@@ -44,13 +55,14 @@
   </v-row>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 .work-output-container {
   .v-data-table {
     padding-bottom: 16px;
   }
   tr > td {
-    vertical-align: baseline;
+    vertical-align: middle;
+    padding: 8px 16px !important;
   }
 }
 .btn-container {
@@ -87,12 +99,14 @@
 <script>
 import BaseInput from "components/BaseInput";
 import BaseKatex from "components/BaseKatex";
+import BaseKatexWithText from "components/BaseKatexWithText";
 
 export default {
   name: "WorkOutput",
   components: {
     BaseInput,
     BaseKatex,
+    BaseKatexWithText,
   },
   props: {
     output: Object,

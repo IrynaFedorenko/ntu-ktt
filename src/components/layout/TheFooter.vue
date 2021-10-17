@@ -43,6 +43,7 @@ footer {
     svg {
       width: 18px;
       fill: rgba(0, 0, 0, 0.6);
+      margin-top: -1px;
     }
   }
 }

@@ -5,7 +5,7 @@
 
     <v-row>
       <v-col cols="12">
-        <v-card elevation="6">
+        <v-card elevation="6" class="result-card">
           <v-card-title>Результати розрахунку</v-card-title>
           <v-simple-table class="result-table-container">
             <template v-slot:default>
@@ -62,27 +62,31 @@
 </template>
 
 <style scoped lang="scss">
-.result-table-container {
-  .v-data-table__wrapper > table {
-    th {
-      padding-top: 16px;
-      vertical-align: baseline;
+.result-card {
+  overflow: hidden;
+
+  .result-table-container {
+    .v-data-table__wrapper > table {
+      th {
+        padding-top: 16px;
+        vertical-align: baseline;
+      }
+
+      th,
+      td {
+        border-right: thin solid rgba(0, 0, 0, 0.12);
+      }
+    }
+    .v-data-table__wrapper > table > thead > tr:first-child > th {
+      border-top: thin solid rgba(0, 0, 0, 0.12);
     }
 
-    th,
-    td {
-      border-right: thin solid rgba(0, 0, 0, 0.12);
+    .v-data-table__wrapper > table > thead > tr:last-child > th {
+      font-size: 14px;
     }
-  }
-  .v-data-table__wrapper > table > thead > tr:first-child > th {
-    border-top: thin solid rgba(0, 0, 0, 0.12);
-  }
-
-  .v-data-table__wrapper > table > thead > tr:last-child > th {
-    font-size: 14px;
-  }
-  .v-data-table__wrapper > table > thead > tr > th {
-    border-bottom: thin solid rgba(0, 0, 0, 0.12);
+    .v-data-table__wrapper > table > thead > tr > th {
+      border-bottom: thin solid rgba(0, 0, 0, 0.12);
+    }
   }
 }
 </style>
@@ -103,7 +107,7 @@ export default {
   data: () => {
     return {
       description: {
-        title: "Розрахунково-графічна робота №2",
+        title: "Розрахунково-графічна робота",
         description: "Формування засобів укрупнення вантажного місця (ЗУВМ)",
         purpose:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sed nulla eget mauris pellentesque sollicitudin. Cras posuere porttitor risus sit amet posuere.",

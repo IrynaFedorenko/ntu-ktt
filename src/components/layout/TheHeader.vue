@@ -36,6 +36,7 @@ header {
 
     span {
       font-size: 14px;
+      text-align: end;
       color: rgba(0, 0, 0, 0.6);
     }
   }
@@ -49,7 +50,9 @@ export default {
     description() {
       switch (this.$route.name) {
         case "FormationCargoUnit":
-          return "Кафедра траснпортних технологій | Формування вантажної одиниці";
+          return "Формування засобів укрупнення вантажного місця (ЗУВМ)";
+        case "AnalysisTechnicalAndOperatingCharacteristicsMotorVehicle":
+          return "Аналіз техніко-експлуатаційних характеристик АТЗ";
       }
     },
   },

@@ -5,21 +5,17 @@
 
     <v-row>
       <v-col cols="12">
-        <v-card elevation="6">
+        <v-card elevation="6" class="result-card">
           <v-card-title>Результати розрахунку</v-card-title>
           <v-simple-table class="result-table-container">
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th rowspan="2">Показник</th>
-                  <th rowspan="2">Умовне позначення</th>
-                  <th colspan="2">Хід роботи</th>
-                  <th rowspan="2">Одиниці виміру</th>
-                  <th rowspan="2">Розраховане значення</th>
-                </tr>
-                <tr>
+                  <th>Показник</th>
+                  <th>Умовне позначення</th>
                   <th>Формула</th>
-                  <th>Пояснення</th>
+                  <th>Одиниці виміру</th>
+                  <th>Розраховане значення</th>
                 </tr>
               </thead>
               <tbody>
@@ -27,8 +23,7 @@
                   <td>{{ result.name }}</td>
                   <td><BaseKatex v-bind:formula="result.shorthand"></BaseKatex></td>
                   <td><BaseKatex v-bind:formula="result.formula"></BaseKatex></td>
-                  <td>{{ result.formulaDescription }}</td>
-                  <td><BaseKatex v-bind:formula="result.units"></BaseKatex></td>
+                  <td><BaseKatex v-bind:formula="result.units" v-bind:font-size="'14'"></BaseKatex></td>
                   <td>{{ result.value }}</td>
                 </tr>
               </tbody>
@@ -41,31 +36,31 @@
 </template>
 
 <style scoped lang="scss">
-.output-data-container {
-  .v-data-table {
-    padding-bottom: 16px;
-  }
-  tr > td {
-    vertical-align: baseline;
-  }
-}
+.result-card {
+  overflow: hidden;
 
-.result-table-container {
-  .v-data-table__wrapper > table {
-    th {
-      padding-top: 16px;
-      vertical-align: baseline;
+  .result-table-container {
+    .v-data-table__wrapper > table {
+      th {
+        padding: 8px 16px;
+        vertical-align: baseline;
+      }
+      th,
+      td {
+        border-right: thin solid rgba(0, 0, 0, 0.12);
+        padding: 8px 16px;
+
+        &:nth-of-type(3) {
+          min-width: 300px;
+        }
+      }
     }
-    th,
-    td {
-      border-right: thin solid rgba(0, 0, 0, 0.12);
+    .v-data-table__wrapper > table > thead > tr:first-child > th {
+      border-top: thin solid rgba(0, 0, 0, 0.12);
     }
-  }
-  .v-data-table__wrapper > table > thead > tr:first-child > th {
-    border-top: thin solid rgba(0, 0, 0, 0.12);
-  }
-  .v-data-table__wrapper > table > thead > tr > th {
-    border-bottom: thin solid rgba(0, 0, 0, 0.12);
+    .v-data-table__wrapper > table > thead > tr > th {
+      border-bottom: thin solid rgba(0, 0, 0, 0.12);
+    }
   }
 }
 </style>
@@ -86,7 +81,7 @@ export default {
   data: () => {
     return {
       description: {
-        title: "Практична робота №1",
+        title: "Практична робота",
         description: "Аналіз техніко-експлуатаційних характеристик АТЗ",
         purpose:
           "Вибір рухомого складу з урахуванням виду винтажу, розміру партії, дальності, схеми доставки, а також дорожніх та транспортних умов перевезення.",
@@ -111,17 +106,11 @@ export default {
             units: "м^3",
             value: 10,
           },
-          q3: {
+          l_b: {
             name: "Внутрішня довжина кузова АТЗ",
             formula: "l_в",
             units: "м",
             value: 5,
-          },
-          q41: {
-            name: "Навантажувальна висота підлоги кузова",
-            formula: "h_п",
-            units: "м",
-            value: 0.7,
           },
           q_0: {
             name: "Споряджена маса АТЗ",
@@ -141,97 +130,99 @@ export default {
             units: "м",
             value: 2.5,
           },
-          q7: {
-            name: "Мінімальний радіус повороту",
-            formula: "R_n",
-            units: "м",
-            value: 10,
-          },
-          q8: {
-            name: "Контрольна витрата палива, л/100км",
-            formula: "Q_к",
-            units: "л/100км",
-            value: 20,
-          },
-          q9: {
+          Q_l: {
             name: "Лінійна норма витрати палива",
             formula: "Q_л",
             units: "л/100км",
             value: 22,
           },
-          q10: {
+          Q_lt: {
             name: "Лінійна норма витрати палива тягача",
             formula: "Q_лт",
             units: "л/100км",
             value: 22,
           },
-          q11: {
+          H_p: {
             name: "Норма витрати палива на 1т спорядженої маси (питома витрата палива)",
             formula: "H_n",
+            formulaDescription: [
+              {
+                texts: ["", "для АТЗ з карбюроторним двигуном"],
+                formulas: ["H_п = 2,"],
+              },
+              {
+                texts: ["", "для АТЗ з дизельним двигуном"],
+                formulas: ["H_п = 1.3,"],
+              },
+              {
+                texts: ["", "для сучасних вантажних АТЗ при магістральних перевезеннях"],
+                formulas: ["H_п = 0.6-0.8,"],
+              },
+            ],
             units: "л/100ткм",
             value: 1.3,
           },
-          q12: {
+          G_0p: {
             name: "Споряджена маса причепа (напівпричепа)",
-            formula: "B_a",
+            formula: "G_{0п}",
             units: "т",
             value: 2,
           },
-          q13: {
+          L: {
             name: "Пробіг АТЗ",
             formula: "L",
             units: "км",
             value: 100,
           },
-          q14: {
+          gamma_st: {
             name: "Коефіцієнт статичного використання вантажопідйомності АТЗ",
-            formula: "\\gamma_ст",
+            formula: "\\gamma_{ст}",
             units: "",
             value: 1,
           },
-          q15: {
+          beta: {
             name: "Коефіцієнт пробігу АТЗ",
             formula: "\\beta",
             units: "",
             value: 0.5,
           },
-          q16: {
+          K_d: {
             name: "Коефіцієнт дорожніх умов руху",
-            formula: "",
+            formula: "K_д",
             units: "",
             value: 0.85,
           },
-          q17: {
+          V_b: {
             name: "Об'єм паливного баку",
-            formula: "",
+            formula: "V_б",
             units: "л",
             value: 200,
           },
-          q18: {
+          N: {
             name: "Максимальна потужність двигуна,",
             formula: "N",
             units: "кВт (к.с.)",
             value: 240,
           },
-          q19: {
+          M_a: {
             name: "Повна маса АТЗ",
-            formula: "G",
+            formula: "M_a",
             units: "т",
             value: 18,
           },
-          q20: {
+          M_1: {
             name: "Маса, яка приходиться на першу вісь",
             formula: "M_1",
             units: "т",
             value: 3,
           },
-          q21: {
+          M_2: {
             name: "Маса, яка приходиться на другу вісь",
             formula: "M_2",
             units: "т",
             value: 10,
           },
-          q22: {
+          M_3: {
             name: "Маса, яка приходиться на третю вісь",
             formula: "M_3",
             units: "т",
@@ -252,7 +243,22 @@ export default {
         this.output.inputs.V_v.value,
         this.output.inputs.q_0.value,
         this.output.inputs.L_a.value,
-        this.output.inputs.B_a.value
+        this.output.inputs.B_a.value,
+        this.output.inputs.l_b.value,
+        this.output.inputs.Q_l.value,
+        this.output.inputs.Q_lt.value,
+        this.output.inputs.H_p.value,
+        this.output.inputs.G_0p.value,
+        this.output.inputs.L.value,
+        this.output.inputs.gamma_st.value,
+        this.output.inputs.beta.value,
+        this.output.inputs.K_d.value,
+        this.output.inputs.V_b.value,
+        this.output.inputs.N.value,
+        this.output.inputs.M_a.value,
+        this.output.inputs.M_1.value,
+        this.output.inputs.M_2.value,
+        this.output.inputs.M_3.value
       );
 
       this.results = calculationClass.calculate();
