@@ -17,12 +17,12 @@ class CalculateFormationCargoUnit {
       this.getBoxCountForEachLocationVariant();
 
     return [
-      this.calculateOneLocationVariant("L_п/l, B_п/b, H_п/h", L_to_l, B_to_b, H_to_h),
-      this.calculateOneLocationVariant("L_п/l, B_п/h, H_п/b", L_to_l, B_to_h, H_to_b),
-      this.calculateOneLocationVariant("L_п/b, B_п/l, H_п/h", L_to_b, B_to_l, H_to_h),
-      this.calculateOneLocationVariant("L_п/b, B_п/h, H_п/l", L_to_b, B_to_h, H_to_l),
-      this.calculateOneLocationVariant("L_п/h, B_п/b, H_п/l", L_to_h, B_to_b, H_to_l),
-      this.calculateOneLocationVariant("L_п/h, B_п/l, H_п/b", L_to_h, B_to_l, H_to_b),
+      this.calculateOneLocationVariant("L_п/l, B_п/b, H_п/h", this.l, this.b, L_to_l, B_to_b, H_to_h),
+      this.calculateOneLocationVariant("L_п/l, B_п/h, H_п/b", this.l, this.h, L_to_l, B_to_h, H_to_b),
+      this.calculateOneLocationVariant("L_п/b, B_п/l, H_п/h", this.b, this.l, L_to_b, B_to_l, H_to_h),
+      this.calculateOneLocationVariant("L_п/b, B_п/h, H_п/l", this.b, this.h, L_to_b, B_to_h, H_to_l),
+      this.calculateOneLocationVariant("L_п/h, B_п/b, H_п/l", this.h, this.b, L_to_h, B_to_b, H_to_l),
+      this.calculateOneLocationVariant("L_п/h, B_п/l, H_п/b", this.h, this.l, L_to_h, B_to_l, H_to_b),
     ];
   }
 
@@ -40,10 +40,19 @@ class CalculateFormationCargoUnit {
     };
   }
 
-  calculateOneLocationVariant(scheme, boxCountL, boxCountB, boxCountH, recalculateCount = 0) {
+  calculateOneLocationVariant(
+    scheme,
+    boxLengthToL,
+    boxLengthToB,
+    boxCountL,
+    boxCountB,
+    boxCountH,
+    recalculateCount = 0
+  ) {
     const boxCountTotal = boxCountL * boxCountB * boxCountH;
     const palletWeightGross = boxCountTotal * this.boxWeight;
-    const coefficientAreaUsage = roundTo((this.l * this.b * boxCountL * boxCountB) / (this.L * this.B), 2) || 0;
+    const coefficientAreaUsage =
+      roundTo((boxLengthToL * boxLengthToB * boxCountL * boxCountB) / (this.L * this.B), 2) || 0;
     const coefficientLoadCapacity = roundTo(palletWeightGross / this.palletCapacity, 2) || 0;
 
     const returnObj = {
